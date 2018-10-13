@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import CardList from '../Components/CardList/CardList';
 import SearchBox from '../Components/SearchBox/SearchBox';
 import Scroll from '../Components/Scroll';
 import ErrorBoundry from './ErrorBoundry';
+import { searchRobots } from '../redux/search/actions';
+import { fetchRobots } from '../redux/robots/actions';
 import './App.css';
-import { robots } from './robots';
 
 class App extends Component {
   constructor() {
@@ -16,18 +18,15 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(response => response.json())
-      .then(users => this.setState({ robots:  users }))
+    this.props.fetchRobots();
   }
 
   handleSearch = input => {
-    this.setState({ searchTerm: input });
-    
+    this.setState({ searchTerm: input });    
   }
 
   render() {
-    const { robots, searchTerm } = this.state;
+    const { searchRobots, searchTerm, robots } = this.props;
     const filteredRobots = robots.filter(robot => {
       const lowercaseName = robot.name.toLowerCase();
       return lowercaseName.includes(searchTerm.toLowerCase());
@@ -36,7 +35,7 @@ class App extends Component {
     return !robots.length ? <h1>Loading...</h1> : (
       <div className='tc'>
         <h1 className='f1'>RoboFriends</h1>
-        <SearchBox searchTerm={searchTerm} handleSearch={this.handleSearch}/>
+        <SearchBox searchTerm={searchTerm} handleSearch={searchRobots}/>
         <Scroll>
           <ErrorBoundry>
             <CardList robots={filteredRobots} />
@@ -47,4 +46,12 @@ class App extends Component {
   }
 }
 
-export default App;
+
+// selectors is a function that specifies which pieces of state we want to grab from our store and
+// assign to our container as this.props
+const selectors = state => ({
+  robots: state.robots.robots,
+  searchTerm: state.search.robotSearch,
+});
+
+export default connect(selectors, { searchRobots, fetchRobots })(App);
