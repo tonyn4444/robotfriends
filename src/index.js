@@ -2,9 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'tachyons';
 
-import CardList from './CardList/CardList';
 import './index.css';
-import App from './App';
+import App from './Containers/App';
 
 import * as serviceWorker from './serviceWorker';
 
