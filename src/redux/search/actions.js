@@ -1,1 +1,6 @@
-export const searchRobots = searchTerm => ({ type: 'SET_ROBOT_SEARCH', payload: searchTerm });
+import { SET_SEARCH_FIELD } from './types';
+
+export const setSearchField = searchTerm => ({ 
+	type: SET_SEARCH_FIELD,
+	payload: searchTerm
+});

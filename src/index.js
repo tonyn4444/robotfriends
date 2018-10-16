@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import { createLogger } from 'redux-logger';
 import 'tachyons';
 
 import './index.css';
@@ -11,7 +12,10 @@ import reducers from './redux/rootReducer';
 
 import * as serviceWorker from './serviceWorker';
 
-const store = createStore(reducers, applyMiddleware(thunk));
+const logger = createLogger();
+const middleware = [logger, thunk];
+
+const store = createStore(reducers, applyMiddleware(...middleware));
 
 ReactDOM.render(
 	<Provider store={store}>

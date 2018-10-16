@@ -1,11 +1,13 @@
+import { SET_SEARCH_FIELD } from './types';
+
 const initialState = {
-	robotSearch: ''
+	searchField: ''
 };
 
 function searchReducer(state = initialState, action = {}) {
 	switch (action.type) {
-		case 'SET_ROBOT_SEARCH':
-			return {...state, robotSearch: action.payload};
+		case SET_SEARCH_FIELD:
+			return {...state, searchField: action.payload};
 		default:
 			return state;
 	}
